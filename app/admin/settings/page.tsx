@@ -1,123 +1,161 @@
-"use client"
+'use client';
 
-import { useState, useEffect } from "react"
-import { AdminLayout } from "@/components/admin/admin-layout"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Separator } from "@/components/ui/separator"
-import { useToast } from "@/hooks/use-toast"
-import { Save, Upload, RotateCcw, Settings, Globe, Mail, Phone, MapPin, GraduationCap } from "lucide-react"
-import Image from "next/image"
+import { useState, useEffect } from 'react';
+import { AdminLayout } from '@/components/admin/admin-layout';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Separator } from '@/components/ui/separator';
+import { useToast } from '@/hooks/use-toast';
+import {
+  Save,
+  Upload,
+  RotateCcw,
+  Settings,
+  Globe,
+  Mail,
+  Phone,
+  MapPin,
+  GraduationCap,
+} from 'lucide-react';
+import Image from 'next/image';
+import Branding from '@/features/(admin)/setting/branding/Branding';
 
-const COLOR_STORAGE_KEY = "school-management-theme-colors";
+import logo from '@/public/ummez .png';
+
+const COLOR_STORAGE_KEY = 'school-management-theme-colors';
 const initialSettings = {
   // Branding
-  schoolName: "Royal Academy",
-  logo: "/placeholder.svg?height=80&width=80",
-  favicon: "/favicon.ico",
-  tagline: "Excellence in Education Since 1985",
+  schoolName: 'Ummez Academy',
+  logo: '/ummez.png',
+  favicon: '/ummez.png',
+  tagline: 'Excellence in Education Since 1985',
 
   // SEO & Metadata
-  metaTitle: "Royal Academy - School Management System",
-  metaDescription: "Modern school management system with admin panel",
-  metaKeywords: "school, education, academy, learning, students, teachers",
+  metaTitle: 'Ummez Academy - School Management System',
+  metaDescription:
+    'Modern school management system with admin panel',
+  metaKeywords:
+    'school, education, academy, learning, students, teachers',
 
   // Contact Information
-  address: "123 Education Street, Learning City, LC 12345",
-  phone: "+1 (555) 123-4567",
-  email: "info@royalacademy.edu",
-  website: "https://royalacademy.edu",
+  address: '123 Education Street, Learning City, LC 12345',
+  phone: '+1 (555) 123-4567',
+  email: 'info@royalacademy.edu',
+  website: 'https://royalacademy.edu',
 
   // Social Media
-  facebook: "https://facebook.com/royalacademy",
-  twitter: "https://twitter.com/royalacademy",
-  instagram: "https://instagram.com/royalacademy",
-  linkedin: "https://linkedin.com/company/royalacademy",
-  youtube: "https://youtube.com/@royalacademy",
+  facebook: 'https://facebook.com/royalacademy',
+  twitter: 'https://twitter.com/royalacademy',
+  instagram: 'https://instagram.com/royalacademy',
+  linkedin: 'https://linkedin.com/company/royalacademy',
+  youtube: 'https://youtube.com/@royalacademy',
 
   // School Information
-  establishedYear: "1985",
-  principalName: "Dr. Sarah Johnson",
-  totalStudents: "1250+",
-  totalTeachers: "85+",
+  establishedYear: '1985',
+  principalName: 'Dr. Sarah Johnson',
+  totalStudents: '1250+',
+  totalTeachers: '85+',
 
   // System Settings
-  timezone: "America/New_York",
-  dateFormat: "MM/DD/YYYY",
-  currency: "USD",
-  language: "English",
+  timezone: 'America/New_York',
+  dateFormat: 'MM/DD/YYYY',
+  currency: 'USD',
+  language: 'English',
 
   // Footer Settings
-  footerText: "Empowering minds, shaping futures. Excellence in education since 1985.",
-  copyrightText: "© 2024 Royal Academy. All rights reserved.",
+  footerText:
+    'Empowering minds, shaping futures. Excellence in education since 1985.',
+  copyrightText:
+    '© 2024 Royal Academy. All rights reserved.',
 
   // Theme Settings
-  primaryColor: "#1E3A8A",
-  accentColor: "#F59E0B",
+  primaryColor: '#1E3A8A',
+  accentColor: '#F59E0B',
   enableDarkMode: true,
   enableAnimations: true,
-}
-
+};
 
 export default function SettingsManagement() {
-  const [settings, setSettings] = useState(initialSettings)
-  const [activeTab, setActiveTab] = useState("branding")
-  const { toast } = useToast()
+  const [settings, setSettings] = useState(initialSettings);
+  const [activeTab, setActiveTab] = useState('branding');
+  const { toast } = useToast();
 
   // Check if coming from theme redirect
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search)
-    if (urlParams.get("tab") === "system") {
-      setActiveTab("system")
+    const urlParams = new URLSearchParams(
+      window.location.search
+    );
+    if (urlParams.get('tab') === 'system') {
+      setActiveTab('system');
     }
-  }, [])
+  }, []);
 
-  const handleSettingChange = (field: keyof typeof settings, value: string | boolean) => {
-    setSettings((prev) => ({ ...prev, [field]: value }))
-  }
+  const handleSettingChange = (
+    field: keyof typeof settings,
+    value: string | boolean
+  ) => {
+    setSettings(prev => ({ ...prev, [field]: value }));
+  };
 
   const handleSave = () => {
     // In a real app, this would save to a database
     toast({
-      title: "Settings Saved",
-      description: "All settings have been updated successfully.",
-    })
-  }
+      title: 'Settings Saved',
+      description:
+        'All settings have been updated successfully.',
+    });
+  };
 
   const handleReset = () => {
-    setSettings(initialSettings)
+    setSettings(initialSettings);
     toast({
-      title: "Settings Reset",
-      description: "All settings have been reset to default values.",
-    })
-  }
+      title: 'Settings Reset',
+      description:
+        'All settings have been reset to default values.',
+    });
+  };
 
   const tabs = [
-    { id: "branding", label: "Branding", icon: GraduationCap },
-    { id: "seo", label: "SEO & Metadata", icon: Globe },
-    { id: "contact", label: "Contact Info", icon: Phone },
-    { id: "social", label: "Social Media", icon: Globe },
-    { id: "school", label: "School Info", icon: Settings },
-    { id: "system", label: "System", icon: Settings },
-  ]
+    {
+      id: 'branding',
+      label: 'Branding',
+      icon: GraduationCap,
+    },
+    { id: 'seo', label: 'SEO & Metadata', icon: Globe },
+    { id: 'contact', label: 'Contact Info', icon: Phone },
+    { id: 'social', label: 'Social Media', icon: Globe },
+    { id: 'school', label: 'School Info', icon: Settings },
+    { id: 'system', label: 'System', icon: Settings },
+  ];
 
   return (
     <AdminLayout>
       <div className="space-y-8">
         <div>
           <h1 className="text-3xl font-bold">Settings</h1>
-          <p className="text-muted-foreground">Manage school branding, contact information, and system settings</p>
+          <p className="text-muted-foreground">
+            Manage school branding, contact information, and
+            system settings
+          </p>
         </div>
 
         {/* Tab Navigation */}
         <div className="flex flex-wrap gap-2 border-b">
-          {tabs.map((tab) => (
+          {tabs.map(tab => (
             <Button
               key={tab.id}
-              variant={activeTab === tab.id ? "default" : "ghost"}
+              variant={
+                activeTab === tab.id ? 'default' : 'ghost'
+              }
               onClick={() => setActiveTab(tab.id)}
               className="flex items-center space-x-2"
             >
@@ -128,160 +166,81 @@ export default function SettingsManagement() {
         </div>
 
         {/* Branding Tab */}
-        {activeTab === "branding" && (
-          <div className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>School Branding</CardTitle>
-                <CardDescription>Manage your school's visual identity and branding elements</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="schoolName">School Name</Label>
-                      <Input
-                        id="schoolName"
-                        value={settings.schoolName}
-                        onChange={(e) => handleSettingChange("schoolName", e.target.value)}
-                        placeholder="Enter school name"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="tagline">Tagline</Label>
-                      <Input
-                        id="tagline"
-                        value={settings.tagline}
-                        onChange={(e) => handleSettingChange("tagline", e.target.value)}
-                        placeholder="Enter school tagline"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="logo">Logo URL</Label>
-                      <div className="flex space-x-2">
-                        <Input
-                          id="logo"
-                          value={settings.logo}
-                          onChange={(e) => handleSettingChange("logo", e.target.value)}
-                          placeholder="Enter logo URL"
-                        />
-                        <Button variant="outline" size="icon">
-                          <Upload className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="favicon">Favicon URL</Label>
-                      <div className="flex space-x-2">
-                        <Input
-                          id="favicon"
-                          value={settings.favicon}
-                          onChange={(e) => handleSettingChange("favicon", e.target.value)}
-                          placeholder="Enter favicon URL"
-                        />
-                        <Button variant="outline" size="icon">
-                          <Upload className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="space-y-4">
-                    <div>
-                      <Label>Logo Preview</Label>
-                      <div className="mt-2 p-4 border rounded-lg bg-muted/30">
-                        <div className="flex items-center space-x-3">
-                          <div className="relative h-12 w-12">
-                            <Image
-                              src={settings.logo || "/placeholder.svg"}
-                              alt="Logo Preview"
-                              fill
-                              className="object-contain"
-                            />
-                          </div>
-                          <div>
-                            <h3 className="font-bold text-lg">{settings.schoolName}</h3>
-                            <p className="text-sm text-muted-foreground">{settings.tagline}</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div>
-                      <Label>Header Preview</Label>
-                      <div className="mt-2 p-4 border rounded-lg bg-background">
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center space-x-2">
-                            <div className="relative h-8 w-8">
-                              <Image
-                                src={settings.logo || "/placeholder.svg"}
-                                alt="Logo"
-                                fill
-                                className="object-contain"
-                              />
-                            </div>
-                            <span className="text-lg font-bold text-primary">{settings.schoolName}</span>
-                          </div>
-                          <div className="hidden md:flex space-x-6 text-sm">
-                            <span>Home</span>
-                            <span>About</span>
-                            <span>News</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+        {activeTab === 'branding' && (
+          <Branding
+            handleSettingChange={handleSettingChange}
+            settings={settings}
+          />
         )}
-
         {/* SEO & Metadata Tab */}
-        {activeTab === "seo" && (
+        {activeTab === 'seo' && (
           <div className="space-y-6">
             <Card>
               <CardHeader>
                 <CardTitle>SEO & Metadata</CardTitle>
-                <CardDescription>Optimize your website for search engines and social media</CardDescription>
+                <CardDescription>
+                  Optimize your website for search engines
+                  and social media
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="metaTitle">Meta Title</Label>
+                  <Label htmlFor="metaTitle">
+                    Meta Title
+                  </Label>
                   <Input
                     id="metaTitle"
                     value={settings.metaTitle}
-                    onChange={(e) => handleSettingChange("metaTitle", e.target.value)}
+                    onChange={e =>
+                      handleSettingChange(
+                        'metaTitle',
+                        e.target.value
+                      )
+                    }
                     placeholder="Enter meta title (recommended: 50-60 characters)"
                   />
                   <p className="text-xs text-muted-foreground">
-                    Current length: {settings.metaTitle.length} characters
+                    Current length:{' '}
+                    {settings.metaTitle.length} characters
                   </p>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="metaDescription">Meta Description</Label>
+                  <Label htmlFor="metaDescription">
+                    Meta Description
+                  </Label>
                   <Textarea
                     id="metaDescription"
                     value={settings.metaDescription}
-                    onChange={(e) => handleSettingChange("metaDescription", e.target.value)}
+                    onChange={e =>
+                      handleSettingChange(
+                        'metaDescription',
+                        e.target.value
+                      )
+                    }
                     placeholder="Enter meta description (recommended: 150-160 characters)"
                     rows={3}
                   />
                   <p className="text-xs text-muted-foreground">
-                    Current length: {settings.metaDescription.length} characters
+                    Current length:{' '}
+                    {settings.metaDescription.length}{' '}
+                    characters
                   </p>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="metaKeywords">Meta Keywords</Label>
+                  <Label htmlFor="metaKeywords">
+                    Meta Keywords
+                  </Label>
                   <Input
                     id="metaKeywords"
                     value={settings.metaKeywords}
-                    onChange={(e) => handleSettingChange("metaKeywords", e.target.value)}
+                    onChange={e =>
+                      handleSettingChange(
+                        'metaKeywords',
+                        e.target.value
+                      )
+                    }
                     placeholder="Enter keywords separated by commas"
                   />
                 </div>
@@ -289,12 +248,20 @@ export default function SettingsManagement() {
                 <Separator />
 
                 <div className="space-y-4">
-                  <h4 className="font-semibold">Search Engine Preview</h4>
+                  <h4 className="font-semibold">
+                    Search Engine Preview
+                  </h4>
                   <div className="p-4 border rounded-lg bg-muted/30">
                     <div className="space-y-1">
-                      <h3 className="text-lg text-blue-600 hover:underline cursor-pointer">{settings.metaTitle}</h3>
-                      <p className="text-sm text-green-600">{settings.website}</p>
-                      <p className="text-sm text-gray-600">{settings.metaDescription}</p>
+                      <h3 className="text-lg text-blue-600 hover:underline cursor-pointer">
+                        {settings.metaTitle}
+                      </h3>
+                      <p className="text-sm text-green-600">
+                        {settings.website}
+                      </p>
+                      <p className="text-sm text-gray-600">
+                        {settings.metaDescription}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -304,12 +271,15 @@ export default function SettingsManagement() {
         )}
 
         {/* Contact Information Tab */}
-        {activeTab === "contact" && (
+        {activeTab === 'contact' && (
           <div className="space-y-6">
             <Card>
               <CardHeader>
                 <CardTitle>Contact Information</CardTitle>
-                <CardDescription>Manage school contact details displayed on the website</CardDescription>
+                <CardDescription>
+                  Manage school contact details displayed on
+                  the website
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -318,7 +288,12 @@ export default function SettingsManagement() {
                     <Textarea
                       id="address"
                       value={settings.address}
-                      onChange={(e) => handleSettingChange("address", e.target.value)}
+                      onChange={e =>
+                        handleSettingChange(
+                          'address',
+                          e.target.value
+                        )
+                      }
                       placeholder="Enter school address"
                       rows={3}
                     />
@@ -326,32 +301,53 @@ export default function SettingsManagement() {
 
                   <div className="space-y-4">
                     <div className="space-y-2">
-                      <Label htmlFor="phone">Phone Number</Label>
+                      <Label htmlFor="phone">
+                        Phone Number
+                      </Label>
                       <Input
                         id="phone"
                         value={settings.phone}
-                        onChange={(e) => handleSettingChange("phone", e.target.value)}
+                        onChange={e =>
+                          handleSettingChange(
+                            'phone',
+                            e.target.value
+                          )
+                        }
                         placeholder="Enter phone number"
                       />
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="email">Email Address</Label>
+                      <Label htmlFor="email">
+                        Email Address
+                      </Label>
                       <Input
                         id="email"
                         type="email"
                         value={settings.email}
-                        onChange={(e) => handleSettingChange("email", e.target.value)}
+                        onChange={e =>
+                          handleSettingChange(
+                            'email',
+                            e.target.value
+                          )
+                        }
                         placeholder="Enter email address"
                       />
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="website">Website URL</Label>
+                      <Label htmlFor="website">
+                        Website URL
+                      </Label>
                       <Input
                         id="website"
                         value={settings.website}
-                        onChange={(e) => handleSettingChange("website", e.target.value)}
+                        onChange={e =>
+                          handleSettingChange(
+                            'website',
+                            e.target.value
+                          )
+                        }
                         placeholder="Enter website URL"
                       />
                     </div>
@@ -361,20 +357,28 @@ export default function SettingsManagement() {
                 <Separator />
 
                 <div className="space-y-4">
-                  <h4 className="font-semibold">Contact Preview</h4>
+                  <h4 className="font-semibold">
+                    Contact Preview
+                  </h4>
                   <div className="p-4 border rounded-lg bg-muted/30">
                     <div className="space-y-3">
                       <div className="flex items-center space-x-2">
                         <MapPin className="h-4 w-4 text-muted-foreground" />
-                        <span className="text-sm">{settings.address}</span>
+                        <span className="text-sm">
+                          {settings.address}
+                        </span>
                       </div>
                       <div className="flex items-center space-x-2">
                         <Phone className="h-4 w-4 text-muted-foreground" />
-                        <span className="text-sm">{settings.phone}</span>
+                        <span className="text-sm">
+                          {settings.phone}
+                        </span>
                       </div>
                       <div className="flex items-center space-x-2">
                         <Mail className="h-4 w-4 text-muted-foreground" />
-                        <span className="text-sm">{settings.email}</span>
+                        <span className="text-sm">
+                          {settings.email}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -385,61 +389,98 @@ export default function SettingsManagement() {
         )}
 
         {/* Social Media Tab */}
-        {activeTab === "social" && (
+        {activeTab === 'social' && (
           <div className="space-y-6">
             <Card>
               <CardHeader>
                 <CardTitle>Social Media Links</CardTitle>
-                <CardDescription>Manage your school's social media presence</CardDescription>
+                <CardDescription>
+                  Manage your school's social media presence
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="facebook">Facebook URL</Label>
+                    <Label htmlFor="facebook">
+                      Facebook URL
+                    </Label>
                     <Input
                       id="facebook"
                       value={settings.facebook}
-                      onChange={(e) => handleSettingChange("facebook", e.target.value)}
+                      onChange={e =>
+                        handleSettingChange(
+                          'facebook',
+                          e.target.value
+                        )
+                      }
                       placeholder="https://facebook.com/yourschool"
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="twitter">Twitter URL</Label>
+                    <Label htmlFor="twitter">
+                      Twitter URL
+                    </Label>
                     <Input
                       id="twitter"
                       value={settings.twitter}
-                      onChange={(e) => handleSettingChange("twitter", e.target.value)}
+                      onChange={e =>
+                        handleSettingChange(
+                          'twitter',
+                          e.target.value
+                        )
+                      }
                       placeholder="https://twitter.com/yourschool"
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="instagram">Instagram URL</Label>
+                    <Label htmlFor="instagram">
+                      Instagram URL
+                    </Label>
                     <Input
                       id="instagram"
                       value={settings.instagram}
-                      onChange={(e) => handleSettingChange("instagram", e.target.value)}
+                      onChange={e =>
+                        handleSettingChange(
+                          'instagram',
+                          e.target.value
+                        )
+                      }
                       placeholder="https://instagram.com/yourschool"
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="linkedin">LinkedIn URL</Label>
+                    <Label htmlFor="linkedin">
+                      LinkedIn URL
+                    </Label>
                     <Input
                       id="linkedin"
                       value={settings.linkedin}
-                      onChange={(e) => handleSettingChange("linkedin", e.target.value)}
+                      onChange={e =>
+                        handleSettingChange(
+                          'linkedin',
+                          e.target.value
+                        )
+                      }
                       placeholder="https://linkedin.com/company/yourschool"
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="youtube">YouTube URL</Label>
+                    <Label htmlFor="youtube">
+                      YouTube URL
+                    </Label>
                     <Input
                       id="youtube"
                       value={settings.youtube}
-                      onChange={(e) => handleSettingChange("youtube", e.target.value)}
+                      onChange={e =>
+                        handleSettingChange(
+                          'youtube',
+                          e.target.value
+                        )
+                      }
                       placeholder="https://youtube.com/@yourschool"
                     />
                   </div>
@@ -450,51 +491,81 @@ export default function SettingsManagement() {
         )}
 
         {/* School Information Tab */}
-        {activeTab === "school" && (
+        {activeTab === 'school' && (
           <div className="space-y-6">
             <Card>
               <CardHeader>
                 <CardTitle>School Information</CardTitle>
-                <CardDescription>Basic information about your school</CardDescription>
+                <CardDescription>
+                  Basic information about your school
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="establishedYear">Established Year</Label>
+                    <Label htmlFor="establishedYear">
+                      Established Year
+                    </Label>
                     <Input
                       id="establishedYear"
                       value={settings.establishedYear}
-                      onChange={(e) => handleSettingChange("establishedYear", e.target.value)}
+                      onChange={e =>
+                        handleSettingChange(
+                          'establishedYear',
+                          e.target.value
+                        )
+                      }
                       placeholder="Enter establishment year"
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="principalName">Principal Name</Label>
+                    <Label htmlFor="principalName">
+                      Principal Name
+                    </Label>
                     <Input
                       id="principalName"
                       value={settings.principalName}
-                      onChange={(e) => handleSettingChange("principalName", e.target.value)}
+                      onChange={e =>
+                        handleSettingChange(
+                          'principalName',
+                          e.target.value
+                        )
+                      }
                       placeholder="Enter principal name"
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="totalStudents">Total Students</Label>
+                    <Label htmlFor="totalStudents">
+                      Total Students
+                    </Label>
                     <Input
                       id="totalStudents"
                       value={settings.totalStudents}
-                      onChange={(e) => handleSettingChange("totalStudents", e.target.value)}
+                      onChange={e =>
+                        handleSettingChange(
+                          'totalStudents',
+                          e.target.value
+                        )
+                      }
                       placeholder="e.g., 1250+"
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="totalTeachers">Total Teachers</Label>
+                    <Label htmlFor="totalTeachers">
+                      Total Teachers
+                    </Label>
                     <Input
                       id="totalTeachers"
                       value={settings.totalTeachers}
-                      onChange={(e) => handleSettingChange("totalTeachers", e.target.value)}
+                      onChange={e =>
+                        handleSettingChange(
+                          'totalTeachers',
+                          e.target.value
+                        )
+                      }
                       placeholder="e.g., 85+"
                     />
                   </div>
@@ -504,22 +575,36 @@ export default function SettingsManagement() {
 
                 <div className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="footerText">Footer Description</Label>
+                    <Label htmlFor="footerText">
+                      Footer Description
+                    </Label>
                     <Textarea
                       id="footerText"
                       value={settings.footerText}
-                      onChange={(e) => handleSettingChange("footerText", e.target.value)}
+                      onChange={e =>
+                        handleSettingChange(
+                          'footerText',
+                          e.target.value
+                        )
+                      }
                       placeholder="Enter footer description"
                       rows={3}
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="copyrightText">Copyright Text</Label>
+                    <Label htmlFor="copyrightText">
+                      Copyright Text
+                    </Label>
                     <Input
                       id="copyrightText"
                       value={settings.copyrightText}
-                      onChange={(e) => handleSettingChange("copyrightText", e.target.value)}
+                      onChange={e =>
+                        handleSettingChange(
+                          'copyrightText',
+                          e.target.value
+                        )
+                      }
                       placeholder="Enter copyright text"
                     />
                   </div>
@@ -530,51 +615,82 @@ export default function SettingsManagement() {
         )}
 
         {/* System Settings Tab */}
-        {activeTab === "system" && (
+        {activeTab === 'system' && (
           <div className="space-y-6">
             <Card>
               <CardHeader>
                 <CardTitle>System Settings</CardTitle>
-                <CardDescription>Configure system preferences and regional settings</CardDescription>
+                <CardDescription>
+                  Configure system preferences and regional
+                  settings
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="timezone">Timezone</Label>
+                    <Label htmlFor="timezone">
+                      Timezone
+                    </Label>
                     <Input
                       id="timezone"
                       value={settings.timezone}
-                      onChange={(e) => handleSettingChange("timezone", e.target.value)}
+                      onChange={e =>
+                        handleSettingChange(
+                          'timezone',
+                          e.target.value
+                        )
+                      }
                       placeholder="e.g., America/New_York"
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="dateFormat">Date Format</Label>
+                    <Label htmlFor="dateFormat">
+                      Date Format
+                    </Label>
                     <Input
                       id="dateFormat"
                       value={settings.dateFormat}
-                      onChange={(e) => handleSettingChange("dateFormat", e.target.value)}
+                      onChange={e =>
+                        handleSettingChange(
+                          'dateFormat',
+                          e.target.value
+                        )
+                      }
                       placeholder="e.g., MM/DD/YYYY"
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="currency">Currency</Label>
+                    <Label htmlFor="currency">
+                      Currency
+                    </Label>
                     <Input
                       id="currency"
                       value={settings.currency}
-                      onChange={(e) => handleSettingChange("currency", e.target.value)}
+                      onChange={e =>
+                        handleSettingChange(
+                          'currency',
+                          e.target.value
+                        )
+                      }
                       placeholder="e.g., USD"
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="language">Language</Label>
+                    <Label htmlFor="language">
+                      Language
+                    </Label>
                     <Input
                       id="language"
                       value={settings.language}
-                      onChange={(e) => handleSettingChange("language", e.target.value)}
+                      onChange={e =>
+                        handleSettingChange(
+                          'language',
+                          e.target.value
+                        )
+                      }
                       placeholder="e.g., English"
                     />
                   </div>
@@ -583,41 +699,67 @@ export default function SettingsManagement() {
                 <Separator />
 
                 <div className="space-y-4">
-                  <h4 className="font-semibold">Theme Settings</h4>
+                  <h4 className="font-semibold">
+                    Theme Settings
+                  </h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="primaryColor">Primary Color</Label>
+                      <Label htmlFor="primaryColor">
+                        Primary Color
+                      </Label>
                       <div className="flex space-x-2">
                         <Input
                           id="primaryColor"
                           type="color"
                           value={settings.primaryColor}
-                          onChange={(e) => handleSettingChange("primaryColor", e.target.value)}
+                          onChange={e =>
+                            handleSettingChange(
+                              'primaryColor',
+                              e.target.value
+                            )
+                          }
                           className="w-16 h-10 p-1 border rounded"
                         />
                         <Input
                           type="text"
                           value={settings.primaryColor}
-                          onChange={(e) => handleSettingChange("primaryColor", e.target.value)}
+                          onChange={e =>
+                            handleSettingChange(
+                              'primaryColor',
+                              e.target.value
+                            )
+                          }
                           className="flex-1"
                         />
                       </div>
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="accentColor">Accent Color</Label>
+                      <Label htmlFor="accentColor">
+                        Accent Color
+                      </Label>
                       <div className="flex space-x-2">
                         <Input
                           id="accentColor"
                           type="color"
                           value={settings.accentColor}
-                          onChange={(e) => handleSettingChange("accentColor", e.target.value)}
+                          onChange={e =>
+                            handleSettingChange(
+                              'accentColor',
+                              e.target.value
+                            )
+                          }
                           className="w-16 h-10 p-1 border rounded"
                         />
                         <Input
                           type="text"
                           value={settings.accentColor}
-                          onChange={(e) => handleSettingChange("accentColor", e.target.value)}
+                          onChange={e =>
+                            handleSettingChange(
+                              'accentColor',
+                              e.target.value
+                            )
+                          }
                           className="flex-1"
                         />
                       </div>
@@ -630,10 +772,17 @@ export default function SettingsManagement() {
                         type="checkbox"
                         id="enableDarkMode"
                         checked={settings.enableDarkMode}
-                        onChange={(e) => handleSettingChange("enableDarkMode", e.target.checked)}
+                        onChange={e =>
+                          handleSettingChange(
+                            'enableDarkMode',
+                            e.target.checked
+                          )
+                        }
                         className="rounded"
                       />
-                      <Label htmlFor="enableDarkMode">Enable Dark Mode</Label>
+                      <Label htmlFor="enableDarkMode">
+                        Enable Dark Mode
+                      </Label>
                     </div>
 
                     <div className="flex items-center space-x-2">
@@ -641,10 +790,17 @@ export default function SettingsManagement() {
                         type="checkbox"
                         id="enableAnimations"
                         checked={settings.enableAnimations}
-                        onChange={(e) => handleSettingChange("enableAnimations", e.target.checked)}
+                        onChange={e =>
+                          handleSettingChange(
+                            'enableAnimations',
+                            e.target.checked
+                          )
+                        }
                         className="rounded"
                       />
-                      <Label htmlFor="enableAnimations">Enable Animations</Label>
+                      <Label htmlFor="enableAnimations">
+                        Enable Animations
+                      </Label>
                     </div>
                   </div>
                 </div>
@@ -659,12 +815,16 @@ export default function SettingsManagement() {
             <Save className="h-4 w-4 mr-2" />
             Save All Settings
           </Button>
-          <Button onClick={handleReset} variant="outline" className="flex-1 bg-transparent">
+          <Button
+            onClick={handleReset}
+            variant="outline"
+            className="flex-1 bg-transparent"
+          >
             <RotateCcw className="h-4 w-4 mr-2" />
             Reset to Default
           </Button>
         </div>
       </div>
     </AdminLayout>
-  )
+  );
 }
