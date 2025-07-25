@@ -8,7 +8,10 @@ export async function POST(request: Request) {
     const formData = await request.formData();
     const file = formData.get('file');
     if (!file || !(file instanceof Blob)) {
-      return NextResponse.json({ error: 'No file uploaded' }, { status: 400 });
+      return NextResponse.json(
+        { error: 'No file uploaded' },
+        { status: 400 }
+      );
     }
     // Try to get filename from FormData if available
     let fileName = 'upload.jpg';
@@ -19,15 +22,26 @@ export async function POST(request: Request) {
       // Try to get filename from FormData
       const entries = Array.from(formData.entries());
       for (const [key, value] of entries) {
-        if (key === 'file' && value && typeof value === 'object' && 'name' in value) {
+        if (
+          key === 'file' &&
+          value &&
+          typeof value === 'object' &&
+          'name' in value
+        ) {
           // @ts-ignore
           fileName = value.name;
         }
       }
     }
-    const uploaded = await put(fileName, file, { access: 'public' });
+    const uploaded = await put(fileName, file, {
+      access: 'public',
+      allowOverwrite: true,
+    });
     return NextResponse.json({ url: uploaded.url });
   } catch (err) {
-    return NextResponse.json({ error: 'Upload failed', details: String(err) }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Upload failed', details: String(err) },
+      { status: 500 }
+    );
   }
 }

@@ -15,9 +15,11 @@ import { useDropzone } from 'react-dropzone';
 function DropzoneInput({
   value,
   onChange,
+  setImageLoading,
 }: {
   value: string;
   onChange: (url: string) => void;
+  setImageLoading: (loading: boolean) => void;
 }) {
   const { getRootProps, getInputProps, isDragActive } =
     useDropzone({
@@ -26,6 +28,7 @@ function DropzoneInput({
       onDrop: async acceptedFiles => {
         if (acceptedFiles.length === 0) return;
         const file = acceptedFiles[0];
+        setImageLoading(true);
         // Upload to backend (Vercel Blob)
         const formData = new FormData();
         formData.append('file', file);
@@ -35,6 +38,7 @@ function DropzoneInput({
         });
         const data = await res.json();
         if (data.url) onChange(data.url);
+        setImageLoading(false);
       },
     });
   return (
@@ -126,6 +130,10 @@ export default function HeroManagement() {
   const [actionLoading, setActionLoading] = useState<
     number | null
   >(null);
+  const [addImageLoading, setAddImageLoading] =
+    useState(false);
+  const [editImageLoading, setEditImageLoading] =
+    useState(false);
   const { toast } = useToast();
 
   const handleAddSlide = async () => {
@@ -205,7 +213,6 @@ export default function HeroManagement() {
           slide.id === editingSlide.id ? updated : slide
         )
       );
-      setEditingSlide(null);
       setSlideForm({ title: '', subtitle: '', image: '' });
       toast({
         title: 'Success',
@@ -219,6 +226,7 @@ export default function HeroManagement() {
       });
     } finally {
       setUpdateLoading(false);
+      setEditingSlide(null); // auto-close dialog after update
     }
   };
 
@@ -358,6 +366,7 @@ export default function HeroManagement() {
                             image: url,
                           })
                         }
+                        setImageLoading={setAddImageLoading}
                       />
                     </div>
                   </div>
@@ -365,9 +374,11 @@ export default function HeroManagement() {
                     <Button
                       onClick={handleAddSlide}
                       className="flex-1"
-                      disabled={addLoading}
+                      disabled={
+                        addLoading || addImageLoading
+                      }
                     >
-                      {addLoading ? (
+                      {addLoading || addImageLoading ? (
                         <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                       ) : null}
                       Add Slide
@@ -482,7 +493,13 @@ export default function HeroManagement() {
                             </div>
                           </DialogContent>
                         </Dialog>
-                        <Dialog>
+                        <Dialog
+                          open={!!editingSlide}
+                          onOpenChange={open => {
+                            if (!open)
+                              setEditingSlide(null);
+                          }}
+                        >
                           <DialogTrigger asChild>
                             <Button
                               variant="outline"
@@ -490,6 +507,7 @@ export default function HeroManagement() {
                               onClick={() =>
                                 handleEditSlide(slide)
                               }
+                              disabled={editImageLoading}
                             >
                               <Edit className="h-4 w-4" />
                             </Button>
@@ -550,6 +568,9 @@ export default function HeroManagement() {
                                       image: url,
                                     })
                                   }
+                                  setImageLoading={
+                                    setEditImageLoading
+                                  }
                                 />
                               </div>
                             </div>
@@ -557,9 +578,13 @@ export default function HeroManagement() {
                               <Button
                                 onClick={handleUpdateSlide}
                                 className="flex-1"
-                                disabled={updateLoading}
+                                disabled={
+                                  updateLoading ||
+                                  editImageLoading
+                                }
                               >
-                                {updateLoading ? (
+                                {updateLoading ||
+                                editImageLoading ? (
                                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                                 ) : null}
                                 Update Slide
