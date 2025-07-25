@@ -1,6 +1,5 @@
 'use client';
 
-
 import { useEffect, useRef, useState } from 'react';
 import {
   Users,
@@ -24,6 +23,39 @@ const iconMap: Record<string, any> = {
   books: BookOpen,
   computers: Monitor,
 };
+
+const defaultStatistics: Stat[] = [
+  {
+    key: 'students',
+    label: 'Students',
+    value: 1200,
+    suffix: '+',
+  },
+  {
+    key: 'teachers',
+    label: 'Teachers',
+    value: 80,
+    suffix: '+',
+  },
+  {
+    key: 'classrooms',
+    label: 'Classrooms',
+    value: 40,
+    suffix: '',
+  },
+  {
+    key: 'books',
+    label: 'Books',
+    value: 10000,
+    suffix: '+',
+  },
+  {
+    key: 'computers',
+    label: 'Computers',
+    value: 120,
+    suffix: '',
+  },
+];
 
 function CountUpAnimation({
   end,
@@ -86,7 +118,14 @@ export function StatisticsSection() {
     fetch('/api/statistics')
       .then(res => res.json())
       .then(data => {
-        if (Array.isArray(data)) setStatistics(data);
+        if (Array.isArray(data) && data.length > 0) {
+          setStatistics(data);
+        } else {
+          setStatistics(defaultStatistics);
+        }
+      })
+      .catch(() => {
+        setStatistics(defaultStatistics);
       })
       .finally(() => setLoading(false));
   }, []);

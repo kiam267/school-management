@@ -7,15 +7,11 @@ import { TeacherSection } from '@/components/home/teacher-section';
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen">
-      <Header />
-      <main className="container mx-auto">
-        <HeroSection />
-        <TestimonialSection />
-        <StatisticsSection />
-        <TeacherSection />
-      </main>
-      <Footer />
-    </div>
+    <main className="container mx-auto">
+      <HeroSection />
+      <TestimonialSection />
+      <StatisticsSection />
+      <TeacherSection />
+    </main>
   );
 }
