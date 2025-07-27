@@ -8,10 +8,11 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Upload } from 'lucide-react';
+import { Upload, Loader2 } from 'lucide-react';
 import Image, { StaticImageData } from 'next/image';
+import { useToast } from '@/hooks/use-toast';
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 
 // DropzoneInput component for file upload and URL input
@@ -32,40 +33,79 @@ function DropzoneInput(props: DropzoneInputProps) {
     hideInputValue,
   } = props;
 
+  const [uploading, setUploading] = useState(false);
+  const { toast } = useToast();
+
   const onDrop = React.useCallback(
-    (acceptedFiles: File[]) => {
+    async (acceptedFiles: File[]) => {
       if (acceptedFiles && acceptedFiles[0]) {
         const file = acceptedFiles[0];
-        const reader = new window.FileReader();
-        reader.onload = (e: ProgressEvent<FileReader>) => {
-          if (
-            e.target &&
-            typeof e.target.result === 'string'
-          ) {
-            onChange(e.target.result);
+        
+        try {
+          setUploading(true);
+          
+          // Create FormData for upload
+          const formData = new FormData();
+          formData.append('file', file);
+          
+          // Upload to the hero upload API
+          const response = await fetch('/api/hero/upload', {
+            method: 'POST',
+            body: formData,
+          });
+          
+          if (!response.ok) {
+            throw new Error('Upload failed');
           }
-        };
-        reader.readAsDataURL(file);
+          
+          const result = await response.json();
+          
+          if (result.url) {
+            onChange(result.url);
+            toast({
+              title: 'Upload Successful',
+              description: 'Image uploaded successfully',
+            });
+          } else {
+            throw new Error('No URL returned from upload');
+          }
+        } catch (error) {
+          console.error('Upload error:', error);
+          toast({
+            title: 'Upload Failed',
+            description: 'Failed to upload image. Please try again.',
+            variant: 'destructive',
+          });
+        } finally {
+          setUploading(false);
+        }
       }
     },
-    [onChange]
+    [onChange, toast]
   );
+  
   const { getRootProps, getInputProps, isDragActive } =
     useDropzone({
       onDrop,
       accept: { 'image/*': [] },
       multiple: false,
+      disabled: uploading,
     });
+    
   return (
     <div className="flex space-x-2 items-center">
       <div
         {...getRootProps()}
         className={`flex-1 border rounded p-2 cursor-pointer bg-muted/30 relative h-20 ${
           isDragActive ? 'ring-2 ring-primary' : ''
-        }`}
-        title="Upload image by drag & drop or click"
+        } ${uploading ? 'opacity-50 cursor-not-allowed' : ''}`}
+        title={uploading ? 'Uploading...' : 'Upload image by drag & drop or click'}
       >
-        {value ? (
+        {uploading ? (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+          </div>
+        ) : value ? (
           <div className="flex items-center justify-center h-full">
             <Image
               src={value}
@@ -161,6 +201,12 @@ function Branding({
                   }
                   placeholder="Upload or paste logo URL"
                 />
+                <Input
+                  value={settings.logo}
+                  onChange={(e) => handleSettingChange('logo', e.target.value)}
+                  placeholder="Or enter logo URL manually"
+                  className="mt-2"
+                />
               </div>
 
               <div className="space-y-2">
@@ -173,6 +219,12 @@ function Branding({
                   }
                   placeholder="Upload or paste favicon URL"
                   hideInputValue
+                />
+                <Input
+                  value={settings.favicon}
+                  onChange={(e) => handleSettingChange('favicon', e.target.value)}
+                  placeholder="Or enter favicon URL manually"
+                  className="mt-2"
                 />
                 {settings.favicon && (
                   <div className="mt-2 flex items-center">

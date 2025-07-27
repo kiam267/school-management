@@ -44,17 +44,17 @@ function DropzoneInput({
   return (
     <div
       {...getRootProps()}
-      className={`border rounded-lg p-2 flex items-center justify-center cursor-pointer bg-muted/50 relative h-32 w-full ${
+      className={`border rounded-lg p-2 flex items-center justify-center cursor-pointer bg-muted/50 relative h-32 w-full overflow-hidden ${
         isDragActive ? 'border-primary' : 'border-muted'
       }`}
     >
       <input {...getInputProps()} />
       {value ? (
-        <Image
+        <img
           src={value}
           alt="Preview"
-          fill
-          className="object-cover rounded-lg"
+          // fill
+          className="rounded-lg object-fill overflow-hidden"
         />
       ) : (
         <div className="flex flex-col items-center justify-center w-full h-full">

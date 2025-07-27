@@ -15,10 +15,13 @@ import {
   Menu,
   GraduationCap,
 } from 'lucide-react';
+import { useSettings } from '@/contexts/settings-context';
+import Image from 'next/image';
 
 export function Header() {
   const { theme, setTheme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
+  const { settings, loading } = useSettings();
 
   const navigation = [
     { name: 'Home', href: '/' },
@@ -33,9 +36,21 @@ export function Header() {
           href="/"
           className="flex items-center space-x-2"
         >
-          <GraduationCap className="h-8 w-8 text-primary" />
+          {settings.logo && settings.logo !== '/ummez.png' ? (
+            <div className="relative h-8 w-8">
+              <Image
+                src={settings.logo}
+                alt={settings.schoolName || 'School Logo'}
+                width={32}
+                height={32}
+                className="object-contain"
+              />
+            </div>
+          ) : (
+            <GraduationCap className="h-8 w-8 text-primary" />
+          )}
           <span className="text-xl font-bold text-primary">
-            Royal Academy
+            {loading ? 'Loading...' : (settings.schoolName || 'Royal Academy')}
           </span>
         </Link>
 

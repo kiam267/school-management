@@ -25,69 +25,25 @@ import {
   Phone,
   MapPin,
   GraduationCap,
+  Loader2,
 } from 'lucide-react';
 import Image from 'next/image';
 import Branding from '@/features/(admin)/setting/branding/Branding';
+import { useSettings } from '@/contexts/settings-context';
 
 import logo from '@/public/ummez .png';
 
-const COLOR_STORAGE_KEY = 'school-management-theme-colors';
-const initialSettings = {
-  // Branding
-  schoolName: 'Ummez Academy',
-  logo: '/ummez.png',
-  favicon: '/ummez.png',
-  tagline: 'Excellence in Education Since 1985',
-
-  // SEO & Metadata
-  metaTitle: 'Ummez Academy - School Management System',
-  metaDescription:
-    'Modern school management system with admin panel',
-  metaKeywords:
-    'school, education, academy, learning, students, teachers',
-
-  // Contact Information
-  address: '123 Education Street, Learning City, LC 12345',
-  phone: '+1 (555) 123-4567',
-  email: 'info@royalacademy.edu',
-  website: 'https://royalacademy.edu',
-
-  // Social Media
-  facebook: 'https://facebook.com/royalacademy',
-  twitter: 'https://twitter.com/royalacademy',
-  instagram: 'https://instagram.com/royalacademy',
-  linkedin: 'https://linkedin.com/company/royalacademy',
-  youtube: 'https://youtube.com/@royalacademy',
-
-  // School Information
-  establishedYear: '1985',
-  principalName: 'Dr. Sarah Johnson',
-  totalStudents: '1250+',
-  totalTeachers: '85+',
-
-  // System Settings
-  timezone: 'America/New_York',
-  dateFormat: 'MM/DD/YYYY',
-  currency: 'USD',
-  language: 'English',
-
-  // Footer Settings
-  footerText:
-    'Empowering minds, shaping futures. Excellence in education since 1985.',
-  copyrightText:
-    '© 2024 Royal Academy. All rights reserved.',
-
-  // Theme Settings
-  primaryColor: '#1E3A8A',
-  accentColor: '#F59E0B',
-  enableDarkMode: true,
-  enableAnimations: true,
-};
-
 export default function SettingsManagement() {
-  const [settings, setSettings] = useState(initialSettings);
   const [activeTab, setActiveTab] = useState('branding');
   const { toast } = useToast();
+  const {
+    settings,
+    loading,
+    saving,
+    updateSetting,
+    saveSettings,
+    resetSettings,
+  } = useSettings();
 
   // Check if coming from theme redirect
   useEffect(() => {
@@ -103,25 +59,22 @@ export default function SettingsManagement() {
     field: keyof typeof settings,
     value: string | boolean
   ) => {
-    setSettings(prev => ({ ...prev, [field]: value }));
+    updateSetting(field, value);
   };
 
-  const handleSave = () => {
-    // In a real app, this would save to a database
-    toast({
-      title: 'Settings Saved',
-      description:
-        'All settings have been updated successfully.',
-    });
+  const handleSave = async () => {
+    const success = await saveSettings(settings);
+    if (success) {
+      toast({
+        title: 'Settings Saved',
+        description:
+          'All settings have been updated successfully.',
+      });
+    }
   };
 
   const handleReset = () => {
-    setSettings(initialSettings);
-    toast({
-      title: 'Settings Reset',
-      description:
-        'All settings have been reset to default values.',
-    });
+    resetSettings();
   };
 
   const tabs = [
@@ -135,7 +88,20 @@ export default function SettingsManagement() {
     { id: 'social', label: 'Social Media', icon: Globe },
     { id: 'school', label: 'School Info', icon: Settings },
     { id: 'system', label: 'System', icon: Settings },
-  ];
+      ];
+
+  if (loading) {
+    return (
+      <AdminLayout>
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="flex items-center space-x-2">
+            <Loader2 className="h-6 w-6 animate-spin" />
+            <span>Loading settings...</span>
+          </div>
+        </div>
+      </AdminLayout>
+    );
+  }
 
   return (
     <AdminLayout>
@@ -811,14 +777,23 @@ export default function SettingsManagement() {
 
         {/* Action Buttons */}
         <div className="flex space-x-4">
-          <Button onClick={handleSave} className="flex-1">
-            <Save className="h-4 w-4 mr-2" />
-            Save All Settings
+          <Button
+            onClick={handleSave}
+            className="flex-1"
+            disabled={saving}
+          >
+            {saving ? (
+              <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+            ) : (
+              <Save className="h-4 w-4 mr-2" />
+            )}
+            {saving ? 'Saving...' : 'Save All Settings'}
           </Button>
           <Button
             onClick={handleReset}
             variant="outline"
             className="flex-1 bg-transparent"
+            disabled={saving}
           >
             <RotateCcw className="h-4 w-4 mr-2" />
             Reset to Default

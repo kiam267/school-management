@@ -1,6 +1,6 @@
 {
-  "id": "953a4ef9-1dea-41ad-87e2-9e6e3926938a",
-  "prevId": "dfff61fa-5988-43cd-a454-26f453409fa6",
+  "id": "775d785c-77a2-4bea-a981-43185293477c",
+  "prevId": "93b7799b-a301-45b6-8b5e-2ae786bfca04",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -178,7 +178,7 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "serial",
+          "type": "uuid",
           "primaryKey": true,
           "notNull": true
         },
@@ -200,6 +200,24 @@
           "primaryKey": false,
           "notNull": false
         },
+        "author": {
+          "name": "author",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "category": {
+          "name": "category",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "date": {
+          "name": "date",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
         "published": {
           "name": "published",
           "type": "boolean",
@@ -210,6 +228,12 @@
         "created_at": {
           "name": "created_at",
           "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "excerpt": {
+          "name": "excerpt",
+          "type": "text",
           "primaryKey": false,
           "notNull": true
         },

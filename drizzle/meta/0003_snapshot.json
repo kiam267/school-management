@@ -1,6 +1,6 @@
 {
-  "id": "953a4ef9-1dea-41ad-87e2-9e6e3926938a",
-  "prevId": "dfff61fa-5988-43cd-a454-26f453409fa6",
+  "id": "4688386e-1d95-465e-9555-26c60d9bab8c",
+  "prevId": "eb10db44-3120-40cd-b018-25c526950dac",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -200,6 +200,18 @@
           "primaryKey": false,
           "notNull": false
         },
+        "author": {
+          "name": "author",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "date": {
+          "name": "date",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
         "published": {
           "name": "published",
           "type": "boolean",
@@ -210,6 +222,12 @@
         "created_at": {
           "name": "created_at",
           "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "excerpt": {
+          "name": "excerpt",
+          "type": "text",
           "primaryKey": false,
           "notNull": true
         },
