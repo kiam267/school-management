@@ -8,7 +8,31 @@ import { SettingsProvider } from '@/contexts/settings-context';
 
 const inter = Inter({ subsets: ['latin'] });
 
+export async function generateMetadata() {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
+  const settingsResponse = await fetch(
+    `${baseUrl}/api/settings`,
+    {
+      cache: 'no-store',
+    }
+  );
+
+  if (!settingsResponse.ok) {
+    throw new Error('Failed to fetch data');
+  }
+
+  const settings = await settingsResponse.json();
+
+  return {
+    title: settings?.metaTitle,
+    description: settings?.metaDescription,
+    keywords: settings?.metaKeywords,
+    icons: {
+      icon: settings?.favicon,
+    },
+  };
+}
 
 export default function RootLayout({
   children,
