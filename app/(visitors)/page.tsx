@@ -21,29 +21,27 @@ const getMetadata = () => ({
   favicon: sharedSettings?.favicon || '/favicon.ico',
 });
 
-export const dynamic = 'force-dynamic';
 
-// 2. Use it in generateMetadata
-export async function generateMetadata() {
-  if (!sharedSettings) {
-    sharedSettings = await getSettings();
-  }
+// export async function generateMetadata() {
+//   if (!sharedSettings) {
+//     sharedSettings = await getSettings();
+//   }
 
-  const settings = getMetadata();
-  return {
-    title: settings.metaTitle,
-    description: settings.metaDescription,
-    keywords: settings.metaKeywords,
-    icons: {
-      icon: settings.favicon,
-    },
-  };
-}
+//   const settings = getMetadata();
+//   return {
+//     title: settings.metaTitle,
+//     description: settings.metaDescription,
+//     keywords: settings.metaKeywords,
+//     icons: {
+//       icon: settings.favicon,
+//     },
+//   };
+// }
 
 // 3. Also use in the page component
 export default async function HomePage() {
-  const settings = await getSettings();
-  setSettings(settings);
+  // const settings = await getSettings();
+  // setSettings(settings);
 
   return (
     <main className="container mx-auto">
