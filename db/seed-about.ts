@@ -12,14 +12,16 @@ const initialAboutSections = [
   {
     section: 'vision',
     title: 'Our Vision',
-    content: 'To be a leading educational institution that nurtures innovative thinkers, compassionate leaders, and responsible global citizens who contribute meaningfully to society and drive positive change in the world.',
+    content:
+      'To be a leading educational institution that nurtures innovative thinkers, compassionate leaders, and responsible global citizens who contribute meaningfully to society and drive positive change in the world.',
     image: null,
     order: 2,
   },
   {
     section: 'mission',
     title: 'Our Mission',
-    content: 'We provide a comprehensive, student-centered education that combines academic excellence with character development, critical thinking, and practical skills preparation for higher education and life success.',
+    content:
+      'We provide a comprehensive, student-centered education that combines academic excellence with character development, critical thinking, and practical skills preparation for higher education and life success.',
     image: null,
     order: 3,
   },
@@ -66,7 +68,8 @@ const initialAchievements = [
   {
     year: '2005',
     title: 'Science Excellence Award',
-    description: 'Recognized for outstanding science education',
+    description:
+      'Recognized for outstanding science education',
     order: 3,
   },
   {
@@ -92,7 +95,7 @@ const initialAchievements = [
 export async function seedAboutPage() {
   try {
     console.log('Seeding about page data...');
-    
+
     // Seed about page sections
     for (const section of initialAboutSections) {
       const existing = await db
@@ -101,15 +104,15 @@ export async function seedAboutPage() {
         .where(eq(aboutPage.section, section.section))
         .limit(1);
 
-      if (existing.length === 0) {
-        await db.insert(aboutPage).values({
-          ...section,
-          updatedAt: new Date().toISOString(),
-        });
-        console.log(`Inserted about section: ${section.section}`);
-      } else {
-        console.log(`About section already exists: ${section.section}`);
-      }
+      // if (existing.length === 0) {
+      //   await db.insert(aboutPage).values({
+      //     ...section,
+      //     updatedAt: new Date().toISOString(),
+      //   });
+      //   console.log(`Inserted about section: ${section.section}`);
+      // } else {
+      //   console.log(`About section already exists: ${section.section}`);
+      // }
     }
 
     // Seed achievements
@@ -117,23 +120,25 @@ export async function seedAboutPage() {
       const existing = await db
         .select()
         .from(achievements)
-        .where(and(
-          eq(achievements.year, achievement.year),
-          eq(achievements.title, achievement.title)
-        ))
+        .where(
+          and(
+            eq(achievements.year, achievement.year),
+            eq(achievements.title, achievement.title)
+          )
+        )
         .limit(1);
 
-      if (existing.length === 0) {
-        await db.insert(achievements).values({
-          ...achievement,
-          updatedAt: new Date().toISOString(),
-        });
-        console.log(`Inserted achievement: ${achievement.title}`);
-      } else {
-        console.log(`Achievement already exists: ${achievement.title}`);
-      }
+      // if (existing.length === 0) {
+      //   await db.insert(achievements).values({
+      //     ...achievement,
+      //     updatedAt: new Date().toISOString(),
+      //   });
+      //   console.log(`Inserted achievement: ${achievement.title}`);
+      // } else {
+      //   console.log(`Achievement already exists: ${achievement.title}`);
+      // }
     }
-    
+
     console.log('About page seeding completed!');
   } catch (error) {
     console.error('Error seeding about page data:', error);
@@ -147,8 +152,8 @@ import { eq, and } from 'drizzle-orm';
 if (require.main === module) {
   seedAboutPage()
     .then(() => process.exit(0))
-    .catch((error) => {
+    .catch(error => {
       console.error('Seeding failed:', error);
       process.exit(1);
     });
-} 
+}

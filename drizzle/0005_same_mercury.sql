@@ -1,1 +1,0 @@
-ALTER TABLE "news" ALTER COLUMN "id" SET DATA TYPE uuid;

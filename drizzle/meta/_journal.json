@@ -5,43 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1753509615847,
-      "tag": "0000_peaceful_pyro",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1753627044796,
-      "tag": "0001_blue_outlaw_kid",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1753627792283,
-      "tag": "0002_numerous_black_crow",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1753628235182,
-      "tag": "0003_quiet_mattie_franklin",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1753628291588,
-      "tag": "0004_smart_owl",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "7",
-      "when": 1753631141462,
-      "tag": "0005_same_mercury",
+      "when": 1754290474846,
+      "tag": "0000_yummy_bloodaxe",
       "breakpoints": true
     }
   ]

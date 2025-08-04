@@ -8,6 +8,10 @@ import { SettingsProvider } from '@/contexts/settings-context';
 
 const inter = Inter({ subsets: ['latin'] });
 
+export const metadata: Metadata = {
+  title: 'MK Adarsha HighSchool',
+  // description: ""
+};
 
 export default function RootLayout({
   children,

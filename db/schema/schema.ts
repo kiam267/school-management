@@ -6,7 +6,13 @@ import {
   boolean,
   uuid,
   text,
+  timestamp,
 } from 'drizzle-orm/pg-core';
+
+const timestamps = {
+  pdatedAt: timestamp().defaultNow(),
+  createdAt: timestamp().defaultNow(),
+};
 
 export const statistics = pgTable('statistics', {
   id: serial('id').primaryKey(),
@@ -14,6 +20,7 @@ export const statistics = pgTable('statistics', {
   value: integer('value').notNull(),
   label: varchar('label', { length: 64 }).notNull(),
   suffix: varchar('suffix', { length: 8 }).default(''),
+  ...timestamps,
 });
 
 export const heroSlides = pgTable('hero_slides', {
@@ -23,12 +30,14 @@ export const heroSlides = pgTable('hero_slides', {
   image: varchar('image', { length: 256 }).notNull(),
   order: integer('order').notNull(),
   active: boolean('active').notNull().default(true),
+  ...timestamps,
 });
 
 export const teacherTags = pgTable('teacher_tags', {
   id: serial('id').primaryKey(),
   name: varchar('name', { length: 50 }).notNull(),
   color: varchar('color', { length: 20 }),
+  ...timestamps,
 });
 
 export const teachers = pgTable('teachers', {
@@ -41,6 +50,7 @@ export const teachers = pgTable('teachers', {
   tagId: integer('tagId').references(() => teacherTags.id),
   description: varchar('description', { length: 255 }),
   image: varchar('image', { length: 255 }),
+  ...timestamps,
 });
 
 export const settings = pgTable('settings', {
@@ -48,9 +58,7 @@ export const settings = pgTable('settings', {
   key: varchar('key', { length: 100 }).notNull().unique(),
   value: text('value').notNull(),
   category: varchar('category', { length: 50 }).notNull(),
-  updatedAt: varchar('updated_at', {
-    length: 50,
-  }).notNull(),
+  ...timestamps,
 });
 
 export const aboutPage = pgTable('about_page', {
@@ -61,9 +69,7 @@ export const aboutPage = pgTable('about_page', {
   image: varchar('image', { length: 255 }),
   order: integer('order').notNull(),
   active: boolean('active').notNull().default(true),
-  updatedAt: varchar('updated_at', {
-    length: 50,
-  }).notNull(),
+  ...timestamps,
 });
 
 export const achievements = pgTable('achievements', {
@@ -73,9 +79,7 @@ export const achievements = pgTable('achievements', {
   description: text('description'),
   order: integer('order').notNull(),
   active: boolean('active').notNull().default(true),
-  updatedAt: varchar('updated_at', {
-    length: 50,
-  }).notNull(),
+  ...timestamps,
 });
 
 export const news = pgTable('news', {
@@ -87,11 +91,6 @@ export const news = pgTable('news', {
   category: varchar('category', { length: 255 }),
   date: varchar('date', { length: 50 }),
   published: boolean('published').notNull().default(false),
-  createdAt: varchar('created_at', {
-    length: 50,
-  }).notNull(),
   excerpt: text('excerpt').notNull(),
-  updatedAt: varchar('updated_at', {
-    length: 50,
-  }).notNull(),
+  ...timestamps,
 });
